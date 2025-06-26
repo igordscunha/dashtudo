@@ -1,0 +1,27 @@
+#root {
+  margin: 0;
+}
+
+@media (min-width: 768px){
+  section, nav{
+    padding: 0 8rem;
+  }
+}
+
+@media (min-width: 980px){
+  section, nav{
+    padding: 0 12rem;
+  }
+}
+
+@media (min-width: 1300px){
+  section, nav{
+    padding: 0 18rem;
+  }
+}
+
+@media (min-width: 1600px){
+  section, nav{
+    padding: 0 25rem;
+  }
+}

@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: black;
+  background-color: #f5f7f5;
+
+  box-sizing: border-box;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a:hover {
+  color: #e7e7ee;
+}
+
+button{
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: linear-gradient(to bottom right, oklch(97% 0.014 254.604), oklch(93% 0.034 272.788));
+}
+
+h4{
+  font-size: 1.2rem;
+  line-height: 2rem;
+  color: #4f4d52;
+}
+
+h1{
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 2.4rem;
+}
+
+form{
+  border: 1px solid #878ECD;
+}
+
+input{
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #878ECD;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus{
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+input::placeholder{
+  color: #999;
+  opacity: 0.8;
+}
+
+button{
+  border: 1px solid #878ECD;
+}
+
+button:hover{
+  background-color: #878ECD;
+  color: #f5f7f5;
+}
+
+button:focus{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+button:active{
+  transform: scale(0.98);
+}
