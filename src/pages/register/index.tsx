@@ -14,7 +14,7 @@ export const RegisterPage = () => {
     e.preventDefault();
 
     try{
-      const response = await axios.post('http://localhost:3000/users', {
+      await axios.post('http://localhost:3000/users', {
         nome,
         sobrenome,
         data_nascimento,
@@ -22,7 +22,6 @@ export const RegisterPage = () => {
         hash_password
       });
       setMensagem('Usuário registrado com sucesso!');
-      console.log(response.data);
     } catch(error){
       console.log('Erro ao registrar usuário: ', error);
       setMensagem('Ocorreu um erro ao registrar o usuário.');
@@ -32,7 +31,7 @@ export const RegisterPage = () => {
 
   return(
     <section className="p-5 md:w-full flex justify-center py-20">
-      <form onSubmit={handleSubmit} className='text-black flex flex-col gap-6 md:w-1/5 rounded-xl p-8'>
+      <form onSubmit={handleSubmit} className='text-black flex flex-col gap-6 md:w-full md:mt-20 rounded-xl p-8'>
         <div>
           <label htmlFor="nome">Nome:</label><br/>
           <input type="text" id="nome" name="nome" value={nome} required 

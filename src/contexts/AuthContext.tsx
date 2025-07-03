@@ -36,6 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const checkAuth = async (): Promise<void> => {
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       if (!token) {
         setLoading(false);
@@ -44,6 +45,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const userData = await authService.getCurrentUser();
       setUser(userData);
+
     } catch (error) {
       console.error('Auth check failed:', error);
       localStorage.removeItem('token');
