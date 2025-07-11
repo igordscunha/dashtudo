@@ -14,7 +14,7 @@ export const RegisterPage = () => {
     e.preventDefault();
 
     try{
-      await axios.post('http://localhost:3000/users', {
+      await axios.post('https://my-server-s39h.onrender.com/users', {
         nome,
         sobrenome,
         data_nascimento,

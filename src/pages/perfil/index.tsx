@@ -23,7 +23,7 @@ export const ProfilePage = () => {
     e.preventDefault();
 
     try{
-      await axios.put(`http://localhost:3000/users/${user?.id}`, {
+      await axios.put(`https://my-server-s39h.onrender.com/${user?.id}`, {
         nome,
         sobrenome,
         data_nascimento,

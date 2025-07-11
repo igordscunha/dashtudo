@@ -29,6 +29,9 @@ interface ParsedData {
 }
 
 const ChartVisualizer: React.FC = () => {
+  const CHUNK_SIZE = 1000;
+  const CHUNK_SIZE2 = 5000;
+
   const [csvData, setCsvData] = useState<DataRow[] | null>(null);
   const [columns, setColumns] = useState<string[]>([]);
   const [chartType, setChartType] = useState<'bar' | 'pie' | 'line'>('bar');
@@ -39,6 +42,8 @@ const ChartVisualizer: React.FC = () => {
   });
   const [isEditingColumns, setIsEditingColumns] = useState<boolean>(false);
   const [columnNames, setColumnNames] = useState<ColumnNames>({});
+  const [visibleCount, setVisibleCount] = useState(CHUNK_SIZE);
+
 
   const parseCSV = useCallback((text: string): ParsedData => {
     const lines = text.split('\n').filter(line => line.trim());
@@ -68,6 +73,7 @@ const ChartVisualizer: React.FC = () => {
       const { headers, data } = parseCSV(text);
       
       setCsvData(data);
+      setVisibleCount(CHUNK_SIZE);
       setColumns(headers);
       
       // Inicializar nomes das colunas
@@ -85,38 +91,83 @@ const ChartVisualizer: React.FC = () => {
     reader.readAsText(file);
   }, [parseCSV]);
 
-  const getChartData = () => {
-    if (!csvData || !selectedColumns.x || !selectedColumns.y) return null;
+  const getVisibleData = useCallback((): DataRow[] => {
+    return csvData?.slice(0, visibleCount) || [];
+  }, [csvData, visibleCount]);
 
-    const aggregatedData: { [key: string]: number } = {};
-    csvData.forEach(row => {
-      const xValue = String(row[selectedColumns.x]);
-      const yValue = Number(row[selectedColumns.y]) || 0;
+  // const getChartData = () => {
+  //   if (!csvData || !selectedColumns.x || !selectedColumns.y) return null;
+
+  //   const aggregatedData: { [key: string]: number } = {};
+  //   csvData.forEach(row => {
+  //     const xValue = String(row[selectedColumns.x]);
+  //     const yValue = Number(row[selectedColumns.y]) || 0;
       
-      if (aggregatedData[xValue]) {
-        aggregatedData[xValue] += yValue;
-      } else {
-        aggregatedData[xValue] = yValue;
-      }
+  //     if (aggregatedData[xValue]) {
+  //       aggregatedData[xValue] += yValue;
+  //     } else {
+  //       aggregatedData[xValue] = yValue;
+  //     }
+  //   });
+
+  //   const labels = Object.keys(aggregatedData);
+  //   const data = Object.values(aggregatedData);
+
+  //   return {
+  //     labels,
+  //     datasets: [{
+  //       label: columnNames[selectedColumns.y] || selectedColumns.y,
+  //       data,
+  //       backgroundColor: chartType === 'pie' 
+  //         ? chartConfig.colors.slice(0, labels.length)
+  //         : chartConfig.colors[0],
+  //       borderColor: chartType === 'line' ? chartConfig.colors[0] : undefined,
+  //       borderWidth: chartType === 'line' ? 2 : 1,
+  //       fill: chartType === 'line' ? false : undefined
+  //     }]
+  //   };
+  // };
+
+  const getChartData = () => {
+    const rows = getVisibleData();
+    const { x: xKey, y: yKey } = selectedColumns;
+
+    if (!rows.length || !xKey || !yKey) return null;
+
+    // Agregação apenas sobre o slice atual
+    const aggregated: Record<string, number> = {};
+
+    rows.forEach(row => {
+      const xRaw = row[xKey];
+      const yRaw = row[yKey];
+
+      if (typeof xRaw !== 'string' || typeof yRaw !== 'number') return;
+
+      const xValue = xRaw;
+      const yValue = yRaw;
+
+      aggregated[xValue] = (aggregated[xValue] || 0) + yValue;
     });
 
-    const labels = Object.keys(aggregatedData);
-    const data = Object.values(aggregatedData);
+    const labels = Object.keys(aggregated);
+    const data = Object.values(aggregated);
 
     return {
       labels,
       datasets: [{
-        label: columnNames[selectedColumns.y] || selectedColumns.y,
+        label: columnNames[yKey] || yKey,
         data,
-        backgroundColor: chartType === 'pie' 
-          ? chartConfig.colors.slice(0, labels.length)
-          : chartConfig.colors[0],
+        backgroundColor:
+          chartType === 'pie'
+            ? chartConfig.colors.slice(0, labels.length)
+            : chartConfig.colors[0],
         borderColor: chartType === 'line' ? chartConfig.colors[0] : undefined,
         borderWidth: chartType === 'line' ? 2 : 1,
         fill: chartType === 'line' ? false : undefined
       }]
     };
   };
+
 
   const chartOptions = {
     responsive: true,
@@ -216,7 +267,7 @@ const ChartVisualizer: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">📊 Chart Visualizer</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">📊 Visualizador de Gráfico</h1>
           <p className="text-gray-600">Transforme seus dados em insights visuais</p>
         </div>
 
@@ -344,6 +395,20 @@ const ChartVisualizer: React.FC = () => {
                       ))}
                     </select>
                   </div>
+
+                  <button 
+                    onClick={() => setVisibleCount(prev => prev + CHUNK_SIZE)}
+                    className='px-4 py-3 rounded bg-gradient-to-br from-blue-50 to-indigo-100 hover:!text-blue-700'
+                  >
+                    Carregar mais {CHUNK_SIZE} linhas
+                  </button>
+
+                  <button 
+                    onClick={() => setVisibleCount(prev => prev + CHUNK_SIZE2)}
+                    className='px-4 py-3 rounded bg-gradient-to-br from-blue-50 to-indigo-100 hover:!text-blue-700'
+                  >
+                    Carregar mais {CHUNK_SIZE2} linhas
+                  </button>
                 </div>
               </div>
 

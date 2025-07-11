@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { LoginCredentials, AuthResponse, User } from '../types/auth.ts';
 
-const API_BASE_URL = 'http://localhost:3000'; // ajuste para sua URL da API
+const API_BASE_URL = 'https://my-server-s39h.onrender.com/';
 
 // Configuração do axios
 const api = axios.create({
