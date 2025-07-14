@@ -2,7 +2,6 @@ import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext"
 import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CgSpinner } from "react-icons/cg";
 
 export const ProfilePage = () => {
 
@@ -14,7 +13,6 @@ export const ProfilePage = () => {
   const [mensagem, setMensagem] = useState('');
   const [editar, setEditar] = useState(false);
   const [nascimentoEditado, setNascimentoEditado] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -34,7 +32,7 @@ export const ProfilePage = () => {
       navigate('/profile')
     }
     catch(error){
-      console.log('Erro ao editar usuário: ', error)
+      // console.log('Erro ao editar usuário: ', error) !### DEV
       setMensagem('Erro ao editar usuário')
     }
   }
@@ -46,21 +44,9 @@ export const ProfilePage = () => {
         setNascimentoEditado(dataNascimentoEditada)
       }
     }catch{
-      setLoading(true);
       setNascimentoEditado("31/12/2000")
-    }finally{
-      setLoading(false);
     }
   }, [user])
-
-  if(loading){
-    return(
-      <div>
-        <div><CgSpinner/> <p>Carregando...</p></div>
-      </div>
-    )
-  }
-
 
   return(
     <section className="p-6 md:mt-8">
@@ -84,26 +70,20 @@ export const ProfilePage = () => {
           </form>
 
         ): (
-
-
           <div>
-
-              <form className="!border-0">
-                <label htmlFor="nome">Nome:</label>
-                <input type="text" name="nome" defaultValue={user?.nome} readOnly/>
-                <label htmlFor="sobrenome">Sobrenome:</label>
-                <input type="text" name="sobrenome" defaultValue={user?.sobrenome} readOnly/>
-                <label htmlFor="email">Email:</label>
-                <input type="email" name="email" defaultValue={user?.email} readOnly/>
-                <label htmlFor="datanascimento">Data de Nascimento:</label>
-                <input type="text" name="datanascimento" defaultValue={nascimentoEditado} readOnly/>
-                <label htmlFor="senha">Senha:</label>
-                <input type="password" name="senha" defaultValue={'senhasenha'} readOnly/>
-                <button className="p-2 px-4 rounded md:mt-4" onClick={() => setEditar(true)}>Editar perfil</button>
-              </form>
-            
-
-
+            <form className="!border-0">
+              <label htmlFor="nome">Nome:</label>
+              <input type="text" name="nome" defaultValue={user?.nome} readOnly/>
+              <label htmlFor="sobrenome">Sobrenome:</label>
+              <input type="text" name="sobrenome" defaultValue={user?.sobrenome} readOnly/>
+              <label htmlFor="email">Email:</label>
+              <input type="email" name="email" defaultValue={user?.email} readOnly/>
+              <label htmlFor="datanascimento">Data de Nascimento:</label>
+              <input type="text" name="datanascimento" defaultValue={nascimentoEditado} readOnly/>
+              <label htmlFor="senha">Senha:</label>
+              <input type="password" name="senha" defaultValue={'senhasenha'} readOnly/>
+              <button className="p-2 px-4 rounded md:mt-4" onClick={() => setEditar(true)}>Editar perfil</button>
+            </form>
           </div>
         )}
 
