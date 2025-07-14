@@ -85,4 +85,14 @@ button:active{
   transform: scale(0.98);
 }
 
+@keyframes pulse {
+  0%   { opacity: 0.3; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.loading-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
 @import "tailwindcss";
