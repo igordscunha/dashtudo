@@ -1,11 +1,9 @@
 import axios from 'axios';
 import type { LoginCredentials, AuthResponse, User } from '../types/auth.ts';
 
-const API_BASE_URL = 'https://my-server-s39h.onrender.com/';
-
 // Configuração do axios
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 999999
 });
 
