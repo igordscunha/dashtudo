@@ -16,12 +16,13 @@ export const ProfilePage = () => {
 
   const { user } = useAuth();
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try{
-      await axios.put(`https://my-server-s39h.onrender.com/${user?.id}`, {
+      await axios.put(`${baseUrl}`+`${user?.id}`, {
         nome,
         sobrenome,
         data_nascimento,

@@ -10,11 +10,13 @@ export const RegisterPage = () => {
   const [hash_password, setSenha] = useState('');
   const [mensagem, setMensagem] = useState('');
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try{
-      await axios.post('https://my-server-s39h.onrender.com/users', {
+      await axios.post(`${baseUrl}users`, {
         nome,
         sobrenome,
         data_nascimento,
