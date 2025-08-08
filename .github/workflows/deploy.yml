@@ -28,7 +28,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
           script: |
-            cd /var/www/html
+            cd /var/www/dashtudo
             git pull origin main
             npm ci
             npm run build
