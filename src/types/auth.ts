@@ -5,7 +5,7 @@ export interface User {
   data_nascimento: Date;
   email: string;
   password: string;
-  // adicione outros campos conforme estrutura
+  // adicionar outros campos conforme estrutura futuramente...
 }
 
 export interface LoginCredentials {
