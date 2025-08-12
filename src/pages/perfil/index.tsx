@@ -22,7 +22,7 @@ export const ProfilePage = () => {
     e.preventDefault();
 
     try{
-      await axios.put(baseUrl + user?.id, {
+      await axios.put(baseUrl + 'v1/users/' + user?.id, {
         nome,
         sobrenome,
         data_nascimento,

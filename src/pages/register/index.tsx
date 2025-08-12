@@ -16,7 +16,7 @@ export const RegisterPage = () => {
     e.preventDefault();
 
     try{
-      await axios.post(`${baseUrl}users`, {
+      await axios.post(`${baseUrl}v1/users`, {
         nome,
         sobrenome,
         data_nascimento,
