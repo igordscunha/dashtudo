@@ -21,7 +21,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      const isCheckingAuth = error.config?.url?.includes('v1/auth/me');
+      const isCheckingAuth = error.config?.url?.includes('auth/me');
       if(!isCheckingAuth){
         localStorage.removeItem('token');
         window.location.href = '/login'
@@ -33,12 +33,12 @@ api.interceptors.response.use(
 
 export const authService = {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('v1/auth/login', credentials);
+    const response = await api.post<AuthResponse>('auth/login', credentials);
     return response.data;
   },
 
   async getCurrentUser(): Promise<User> {
-    const response = await api.get<User>('v1/auth/me');
+    const response = await api.get<User>('auth/me');
     return response.data;
   },
 
